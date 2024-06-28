@@ -1,0 +1,56 @@
+<div class="bg-gray-100 p-4 rounded shadow-lg w-full max-w-xl mx-auto">
+	<div class="mb-4">
+		<label for="filter-name" class="block text-gray-700">Filter name</label>
+		<input
+			id="filter-name"
+			type="text"
+			[(ngModel)]="filter.name"
+			class="border p-2 rounded w-full"
+			placeholder="Filter Name"
+		/>
+	</div>
+	@for (criterion of filter.criteria; track criterion.id) {
+		<div class="flex space-x-2 items-center mb-4">
+			<div class="w-1/3">
+				<label class="block text-gray-700">Criteria Type</label>
+				<select [(ngModel)]="criterion.type" class="border p-2 rounded w-full">
+					@for (type of Object.values(ValueType); track type) {
+						<option [value]="type">{{ type }}</option>
+					}
+				</select>
+			</div>
+			<div class="w-1/3">
+				<label class="block text-gray-700">Operation</label>
+				<select [(ngModel)]="criterion.operation" class="border p-2 rounded w-full">
+					@for (operation of getOperationsBasedOnValueType(criterion.type); track operation) {
+						<option [value]="operation">{{ operation }}</option>
+					}
+				</select>
+			</div>
+			<div class="w-1/3">
+				<label class="block text-gray-700">Value</label>
+				@switch (criterion.type) {
+					@case (ValueType.AMOUNT) {
+						<input numericInput [(ngModel)]="criterion.value" type="number" class="border p-2 rounded w-full"/>
+					}
+					@case (ValueType.TEXT) {
+						<input [(ngModel)]="criterion.value" type="text" class="border p-2 rounded w-full"/>
+					}
+					@case (ValueType.DATE) {
+						<input [(ngModel)]="criterion.value" type="date" class="border p-2 rounded w-full"/>
+					}
+				}
+			</div>
+			<button (click)="removeCriterion($index)" class="bg-red-500 text-white p-2 rounded mt-6">-</button>
+		</div>
+	}
+	<div class="mb-4">
+		<button (click)="addCriterion()" class="bg-blue-500 text-white p-2 rounded">+ Add Row</button>
+	</div>
+	<div class="flex justify-end">
+		<button class="bg-gray-500 text-white p-2 rounded mr-2 mb-2" (click)="closeDialog()">Close
+		</button>
+		<button class="bg-blue-500 text-white p-2 rounded mr-2 mb-2" (click)="saveFilter()">Save</button>
+		<button class="bg-red-500 text-white p-2 rounded mb-2" (click)="deleteFilter()">Delete</button>
+	</div>
+</div>

@@ -1,0 +1,74 @@
+databaseChangeLog:
+    - changeSet:
+        id: create-filters-table
+        author: Kristjan Mill
+        changes:
+            - createTable:
+                tableName: filters
+                columns:
+                    - column:
+                        name: id
+                        type: BIGINT
+                        autoIncrement: true
+                        constraints:
+                          primaryKey: true
+                          nullable: false
+                    - column:
+                        name: filter_name
+                        type: VARCHAR(255)
+                        constraints:
+                          nullable: false
+
+    - changeSet:
+        id: create-filters-criteria-table
+        author: Kristjan Mill
+        changes:
+            - createTable:
+                tableName: filter_criteria
+                columns:
+                    - column:
+                        name: id
+                        type: BIGINT
+                        autoIncrement: true
+                        constraints:
+                            primaryKey: true
+                            nullable: false
+                    - column:
+                        name: value_type
+                        type: VARCHAR(255)
+                    - column:
+                        name: operation
+                        type: VARCHAR(255)
+                    - column:
+                        name: operated_value
+                        type: VARCHAR(255)
+
+    - changeSet:
+        id: create-filters-filter-criteria-table
+        author: Kristjan Mill
+        changes:
+            - createTable:
+                tableName: filters_filter_criteria
+                columns:
+                    - column:
+                        name: filter_id
+                        type: BIGINT
+                        constraints:
+                          nullable: false
+                    - column:
+                        name: criteria_id
+                        type: BIGINT
+                        constraints:
+                          nullable: false
+            - addForeignKeyConstraint:
+                baseTableName: filters_filter_criteria
+                baseColumnNames: filter_id
+                referencedTableName: filters
+                referencedColumnNames: id
+                constraintName: fk_filters_filter_criteria_filter
+            - addForeignKeyConstraint:
+                baseTableName: filters_filter_criteria
+                baseColumnNames: criteria_id
+                referencedTableName: filter_criteria
+                referencedColumnNames: id
+                constraintName: fk_filters_filter_criteria_criteria

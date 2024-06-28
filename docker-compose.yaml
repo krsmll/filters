@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  frontend:
+    build:
+      context: ./fe
+      dockerfile: Dockerfile
+    container_name: filters-frontend
+    ports:
+      - "4200:4200"
+  backend:
+    build:
+      context: ./be
+      dockerfile: Dockerfile
+    container_name: filters-backend
+    ports:
+      - "8080:8080"
