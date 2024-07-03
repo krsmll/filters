@@ -29,6 +29,9 @@
 - Run `docker-compose up` in the root directory
 - Open your browser and go to `localhost:4200`
 
+## FE URL
+`localhost:4200`
+
 ## BE Endpoint
 `localhost:8080/api/v1/filters`
 
